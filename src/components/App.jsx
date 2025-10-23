@@ -21,7 +21,16 @@ function App() {
   const [userData, setUserData] = useState({ username: "", email: "" });
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
- 
+  const helmet = require("helmet");
+  const express = require("express");
+  const App = express();
+
+  const limiter = rateLimit({
+    windowMS: 15 * 60 * 1000, // 15 minutes
+    max: 100, // limit each IP to 100 requests per windowMS
+  });
+  App.use(limiter);
+  App.use(helmet());
 
   const navigate = useNavigate();
   const location = useLocation();
